@@ -29,11 +29,11 @@ npm install --save exec-promise
 
 ```javascript
 module.exports = function (args) {
-  if (args.indexOf('--help') !== -1) {
+  if (args.indexOf('-h') !== -1) {
     return 'Usage: my-program [-h | -v]';
   }
 
-  if (args.indexOf('--version') !== -1) {
+  if (args.indexOf('-v') !== -1) {
     var pkg = require('./package');
     return 'MyProgram version '+ pkg.version;
   }
@@ -43,7 +43,7 @@ module.exports = function (args) {
 
   // The program will run until the server closes or encounters an
   // error.
-    return require('event-to-promise')(server, 'close');
+  return require('event-to-promise')(server, 'close');
 }
 ```
 

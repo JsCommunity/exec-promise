@@ -61,7 +61,7 @@ module.exports = function (fn, args, opts) {
     args = process.argv.slice(2);
   }
 
-  return Promise.try(fn).bind(
+  return Promise.try(fn, [args]).bind(
     _.extend({}, defaults, opts)
   ).then(onSuccess, onError).bind();
 };

@@ -28,6 +28,22 @@ describe('exec-promise', function () {
 
   //------------------------------------------------------------------
 
+  it('forwards the parameters', function () {
+    var param0 = {};
+    var param1 = {};
+
+    var spy = sinon.spy();
+
+    return exec(spy, [param0, param1]).then(function () {
+      var params = spy.args[0][0];
+      expect(params).to.have.length(2);
+      expect(params[0]).to.equal(param0);
+      expect(params[1]).to.equal(param1);
+    });
+  });
+
+  //------------------------------------------------------------------
+
   it('when nothing is returned', function () {
     return exec(function () {
       return;
