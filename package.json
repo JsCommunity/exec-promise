@@ -4,8 +4,9 @@
   "license": "MIT",
   "description": "",
   "keywords": [
-    "password",
-    "hash"
+    "cli",
+    "executable",
+    "promise"
   ],
   "homepage": "https://github.com/julien-f/nodejs-exec-promise",
   "bugs": "https://github.com/julien-f/nodejs-exec-promise/issues",
