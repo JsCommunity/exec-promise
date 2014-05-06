@@ -28,11 +28,11 @@ var onSuccess = function (value) {
 };
 
 var onError = function (error) {
-  var exitSuccess = 1;
+  var exitCode = 1;
 
   if (_.isNumber(error))
   {
-    exitSuccess = error;
+    exitCode = error;
   }
   else
   {
@@ -50,7 +50,7 @@ var onError = function (error) {
     this.error(error);
   }
 
-  this.exit(exitSuccess);
+  this.exit(exitCode);
 };
 
 //====================================================================
