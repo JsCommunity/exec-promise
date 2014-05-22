@@ -2,8 +2,39 @@
 
 //====================================================================
 
-var _ = require('lodash');
 var Promise = require('bluebird');
+
+//====================================================================
+
+var extend = (function (has) {
+  has = has.call.bind(has);
+  return function (dst, src) {
+    var i, n, k;
+    for (i = 1, n = arguments.length; i < n; ++i) {
+      src = arguments[i];
+      for (k in src) {
+        if (has(src, k)) {
+          dst[k] = src[k];
+        }
+      }
+    }
+    return dst;
+  };
+})(Object.prototype.hasOwnProperty);
+
+var isNumber, isString;
+(function (toS) {
+  toS = toS.call.bind(toS);
+  var _ = function (ref) {
+    ref = toS(ref);
+    return function (val) {
+      return toS(val) === ref;
+    };
+  };
+
+  isNumber = _(0);
+  isString = _('');
+})(Object.prototype.toString);
 
 //====================================================================
 
@@ -16,7 +47,7 @@ var defaults = {
 var onSuccess = function (value) {
   if (value !== undefined)
   {
-    if (!_.isString(value))
+    if (!isString(value))
     {
       value = JSON.stringify(value);
     }
@@ -30,7 +61,7 @@ var onSuccess = function (value) {
 var onError = function (error) {
   var exitCode = 1;
 
-  if (_.isNumber(error))
+  if (isNumber(error))
   {
     exitCode = error;
   }
@@ -42,7 +73,7 @@ var onError = function (error) {
       error = error.stack;
     }
 
-    if (!_.isString(error))
+    if (!isString(error))
     {
       error = JSON.stringify(error);
     }
@@ -62,6 +93,6 @@ module.exports = function (fn, args, opts) {
   }
 
   return Promise.try(fn, [args]).bind(
-    _.extend({}, defaults, opts)
+    extend({}, defaults, opts)
   ).then(onSuccess, onError).bind();
 };
