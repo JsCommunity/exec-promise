@@ -4,7 +4,7 @@
 [![Dependency Status](https://david-dm.org/julien-f/nodejs-exec-promise/status.svg?theme=shields.io)](https://david-dm.org/julien-f/nodejs-exec-promise)
 [![devDependency Status](https://david-dm.org/julien-f/nodejs-exec-promise/dev-status.svg?theme=shields.io)](https://david-dm.org/julien-f/nodejs-exec-promise#info=devDependencies)
 
-> TODO
+> Testable CLIs with promises
 
 ## Introduction
 
