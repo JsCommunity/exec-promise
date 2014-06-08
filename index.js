@@ -49,7 +49,7 @@ var onSuccess = function (value) {
   {
     if (!isString(value))
     {
-      value = JSON.stringify(value);
+      value = JSON.stringify(value, null, 2);
     }
 
     this.print(value);
@@ -75,7 +75,7 @@ var onError = function (error) {
 
     if (!isString(error))
     {
-      error = JSON.stringify(error);
+      error = JSON.stringify(error, null, 2);
     }
 
     this.error(error);
