@@ -10,7 +10,7 @@
 
 **TODO**
 
-- executables should be testable, even exit status code
+- executables should be testable
 - the execution flow should be predictable and followable (promises)
 
 ## Install
@@ -45,18 +45,12 @@ module.exports = function (args) {
   // error.
   return require('event-to-promise')(server, 'close');
 }
-```
 
-`./bin/my-program`:
-
-```javascript
-require('exec-promise')(
-  // The module containing your program implementation.
-  require('../cli'),
-
-  // Array of parameters, defaults to `process.argv.slice(2)`.
-  null
-);
+// Executes the exported function if this module has been called
+// directly.
+if (!module.parent) {
+  require('exec-promise')(module.exports)
+}
 ```
 
 ## Contributing

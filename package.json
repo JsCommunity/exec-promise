@@ -20,12 +20,13 @@
     "url": "https://github.com/julien-f/nodejs-exec-promise"
   },
   "dependencies": {
-    "bluebird": "^2.0.6"
+    "bluebird": "^2.2.2",
+    "log-symbols": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",
-    "mocha": "^1.20.1",
-    "sinon": "^1.10.2"
+    "mocha": "^1.21.3",
+    "sinon": "^1.10.3"
   },
   "scripts": {
     "test": "mocha index.spec.js"

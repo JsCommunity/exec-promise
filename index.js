@@ -3,24 +3,9 @@
 //====================================================================
 
 var Promise = require('bluebird');
+var logSymbols = require('log-symbols');
 
 //====================================================================
-
-var extend = (function (has) {
-  has = has.call.bind(has);
-  return function (dst, src) {
-    var i, n, k;
-    for (i = 1, n = arguments.length; i < n; ++i) {
-      src = arguments[i];
-      for (k in src) {
-        if (has(src, k)) {
-          dst[k] = src[k];
-        }
-      }
-    }
-    return dst;
-  };
-})(Object.prototype.hasOwnProperty);
 
 var isNumber, isString;
 (function (toS) {
@@ -38,61 +23,37 @@ var isNumber, isString;
 
 //====================================================================
 
-var defaults = {
-  exit: process.exit,
-  print: console.log,
-  error: console.error,
+var prettyFormat = function (value) {
+  if (isString(value)) {
+    return value;
+  }
+
+  if (value instanceof Error) {
+    return value.stack;
+  }
+
+  return JSON.stringify(value, null, 2);
 };
 
 var onSuccess = function (value) {
-  if (value !== undefined)
-  {
-    if (!isString(value))
-    {
-      value = JSON.stringify(value, null, 2);
+    if (value !== undefined) {
+      console.log(prettyFormat(value));
     }
 
-    this.print(value);
-  }
-
-  this.exit(0);
+    process.exit(0);
 };
 
 var onError = function (error) {
-  var exitCode = 1;
+    console.error(logSymbols.error, prettyFormat(error));
 
-  if (isNumber(error))
-  {
-    exitCode = error;
-  }
-  else
-  {
-    // Special case for Error objects which cannot be JSONified.
-    if (error.stack)
-    {
-      error = error.stack;
-    }
-
-    if (!isString(error))
-    {
-      error = JSON.stringify(error, null, 2);
-    }
-
-    this.error(error);
-  }
-
-  this.exit(exitCode);
+    process.exit(1);
 };
 
 //====================================================================
 
-module.exports = function (fn, args, opts) {
-  if (!args)
-  {
-    args = process.argv.slice(2);
-  }
-
-  return Promise.try(fn, [args]).bind(
-    extend({}, defaults, opts)
-  ).then(onSuccess, onError).bind();
+module.exports = function (fn) {
+  return Promise.try(fn, [process.argv.slice(2)]).then(
+    onSuccess,
+    onError
+  );
 };

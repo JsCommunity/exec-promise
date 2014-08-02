@@ -9,36 +9,58 @@ var execPromise = require('./');
 var expect = require('chai').expect;
 var sinon = require('sinon');
 
+//--------------------------------------------------------------------
+
+var logSymbols = require('log-symbols');
+
 //====================================================================
 
 // TODO: test JSONification of non-string errors/values.
 // TODO: test JavaScript errors (`new Error()`) are correctly handled.
 
 describe('exec-promise', function () {
-  // Helper which runs execPromise with spies.
-  var exec = function (fn, args) {
-    var opts = {
-      error: sinon.spy(),
-      exit: sinon.spy(),
-      print: sinon.spy(),
-    };
+  var error, exit, print;
 
-    return execPromise(fn, args, opts).bind(opts);
+  // Helper which runs execPromise with spies.
+  var exec = function (fn) {
+    var origError = console.error;
+    var origExit = process.exit;
+    var origLog = console.log;
+
+    console.error = error = sinon.spy();
+    console.log = print = sinon.spy();
+    process.exit = exit = sinon.spy();
+
+    return execPromise(fn).finally(function () {
+      console.error = origError;
+      console.log = origLog;
+      process.exit = origExit;
+    });
   };
 
   //------------------------------------------------------------------
 
-  it('forwards the parameters', function () {
-    var param0 = {};
-    var param1 = {};
+  it('forwards the process arguments starting from the 3rd one', function () {
+    var arg0 = {};
+    var arg1 = {};
+
+    var origArgv = process.argv;
+    process.argv = [
+      'node',
+      'script.js',
+      arg0,
+      arg1,
+    ];
 
     var spy = sinon.spy();
 
-    return exec(spy, [param0, param1]).then(function () {
+    return exec(spy).finally(function () {
+      process.argv = origArgv;
+    }).then(function () {
       var params = spy.args[0][0];
       expect(params).to.have.length(2);
-      expect(params[0]).to.equal(param0);
-      expect(params[1]).to.equal(param1);
+      expect(params[0]).to.equal(arg0);
+      expect(params[1]).to.equal(arg1);
     });
   });
 
@@ -48,12 +70,12 @@ describe('exec-promise', function () {
     return exec(function () {
       return;
     }).then(function () {
-      expect(this.error.callCount).to.equal(0);
+      expect(error.callCount).to.equal(0);
 
-      expect(this.exit.callCount).to.equal(1);
-      expect(this.exit.args[0]).to.deep.equal([0]);
+      expect(exit.callCount).to.equal(1);
+      expect(exit.args[0]).to.deep.equal([0]);
 
-      expect(this.print.callCount).to.equal(0);
+      expect(print.callCount).to.equal(0);
     });
   });
 
@@ -65,13 +87,13 @@ describe('exec-promise', function () {
     return exec(function () {
       return string;
     }).then(function () {
-      expect(this.error.callCount).to.equal(0);
+      expect(error.callCount).to.equal(0);
 
-      expect(this.exit.callCount).to.equal(1);
-      expect(this.exit.args[0]).to.deep.equal([0]);
+      expect(exit.callCount).to.equal(1);
+      expect(exit.args[0]).to.deep.equal([0]);
 
-      expect(this.print.callCount).to.equal(1);
-      expect(this.print.args[0]).to.deep.equal([string]);
+      expect(print.callCount).to.equal(1);
+      expect(print.args[0]).to.deep.equal([string]);
     });
   });
 
@@ -83,12 +105,13 @@ describe('exec-promise', function () {
     return exec(function () {
       throw code;
     }).then(function () {
-      expect(this.error.callCount).to.equal(0);
+      expect(error.callCount).to.equal(1);
+      expect(error.args[0]).to.deep.equal([logSymbols.error, ''+ code]);
 
-      expect(this.exit.callCount).to.equal(1);
-      expect(this.exit.args[0]).to.deep.equal([code]);
+      expect(exit.callCount).to.equal(1);
+      expect(exit.args[0]).to.deep.equal([1]);
 
-      expect(this.print.callCount).to.equal(0);
+      expect(print.callCount).to.equal(0);
     });
   });
 
@@ -100,13 +123,13 @@ describe('exec-promise', function () {
     return exec(function () {
       throw string;
     }).then(function () {
-      expect(this.error.callCount).to.equal(1);
-      expect(this.error.args[0]).to.deep.equal([string]);
+      expect(error.callCount).to.equal(1);
+      expect(error.args[0]).to.deep.equal([logSymbols.error, string]);
 
-      expect(this.exit.callCount).to.equal(1);
-      expect(this.exit.args[0]).to.deep.equal([1]);
+      expect(exit.callCount).to.equal(1);
+      expect(exit.args[0]).to.deep.equal([1]);
 
-      expect(this.print.callCount).to.equal(0);
+      expect(print.callCount).to.equal(0);
     });
   });
 });
