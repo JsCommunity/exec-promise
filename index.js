@@ -24,6 +24,11 @@ var isNumber, isString;
 //====================================================================
 
 var prettyFormat = function (value) {
+  // Extract real error from Bluebird's wrapper.
+  if (value instanceof Bluebird.OperationalError) {
+    value = value.cause;
+  }
+
   if (isString(value)) {
     return value;
   }
