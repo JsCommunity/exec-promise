@@ -2,7 +2,7 @@
 
 //====================================================================
 
-var Promise = require('bluebird');
+var Bluebird = require('bluebird');
 var logSymbols = require('log-symbols');
 
 //====================================================================
@@ -52,7 +52,7 @@ var onError = function (error) {
 //====================================================================
 
 module.exports = function (fn) {
-  return Promise.try(fn, [process.argv.slice(2)]).then(
+  return Bluebird.try(fn, [process.argv.slice(2)]).then(
     onSuccess,
     onError
   );
