@@ -34,7 +34,7 @@ var prettyFormat = function (value) {
   }
 
   if (value instanceof Error) {
-    return value.stack;
+    return value.message +'\n'+ value.stack;
   }
 
   return JSON.stringify(value, null, 2);
