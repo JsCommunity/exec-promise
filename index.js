@@ -9,11 +9,10 @@ var logSymbols = require('log-symbols');
 
 var isNumber, isString;
 (function (toS) {
-  toS = toS.call.bind(toS);
   var _ = function (ref) {
-    ref = toS(ref);
+    ref = toS.call(ref);
     return function (val) {
-      return toS(val) === ref;
+      return toS.call(val) === ref;
     };
   };
 
@@ -23,7 +22,7 @@ var isNumber, isString;
 
 //====================================================================
 
-var prettyFormat = function (value) {
+function prettyFormat(value) {
   // Extract real error from Bluebird's wrapper.
   if (value instanceof Bluebird.OperationalError) {
     value = value.cause;
@@ -38,27 +37,28 @@ var prettyFormat = function (value) {
   }
 
   return JSON.stringify(value, null, 2);
-};
+}
 
-var onSuccess = function (value) {
+function onSuccess(value) {
     if (value !== undefined) {
       console.log(prettyFormat(value));
     }
 
     process.exit(0);
-};
+}
 
-var onError = function (error) {
+function onError(error) {
     console.error(logSymbols.error, prettyFormat(error));
 
     process.exit(1);
-};
+}
 
 //====================================================================
 
-module.exports = function (fn) {
+function execPromise(fn) {
   return Bluebird.try(fn, [process.argv.slice(2)]).then(
     onSuccess,
     onError
   );
-};
+}
+exports = module.exports = execPromise;
