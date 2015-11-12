@@ -8,7 +8,7 @@ var execPromise = require('./')
 
 // -------------------------------------------------------------------
 
-var expect = require('chai').expect
+var expect = require('must')
 var sinon = require('sinon')
 
 // -------------------------------------------------------------------
@@ -75,7 +75,7 @@ describe('exec-promise', function () {
       expect(error.callCount).to.equal(0)
 
       expect(exit.callCount).to.equal(1)
-      expect(exit.args[0]).to.deep.equal([0])
+      expect(exit.args[0]).to.eql([0])
 
       expect(print.callCount).to.equal(0)
     })
@@ -92,10 +92,10 @@ describe('exec-promise', function () {
       expect(error.callCount).to.equal(0)
 
       expect(exit.callCount).to.equal(1)
-      expect(exit.args[0]).to.deep.equal([0])
+      expect(exit.args[0]).to.eql([0])
 
       expect(print.callCount).to.equal(1)
-      expect(print.args[0]).to.deep.equal([string])
+      expect(print.args[0]).to.eql([string])
     })
   })
 
@@ -108,10 +108,10 @@ describe('exec-promise', function () {
       throw code
     }).then(function () {
       expect(error.callCount).to.equal(1)
-      expect(error.args[0]).to.deep.equal([logSymbols.error, '' + code])
+      expect(error.args[0]).to.eql([logSymbols.error, '' + code])
 
       expect(exit.callCount).to.equal(1)
-      expect(exit.args[0]).to.deep.equal([1])
+      expect(exit.args[0]).to.eql([1])
 
       expect(print.callCount).to.equal(0)
     })
@@ -126,10 +126,10 @@ describe('exec-promise', function () {
       throw string
     }).then(function () {
       expect(error.callCount).to.equal(1)
-      expect(error.args[0]).to.deep.equal([logSymbols.error, string])
+      expect(error.args[0]).to.eql([logSymbols.error, string])
 
       expect(exit.callCount).to.equal(1)
-      expect(exit.args[0]).to.deep.equal([1])
+      expect(exit.args[0]).to.eql([1])
 
       expect(print.callCount).to.equal(0)
     })
