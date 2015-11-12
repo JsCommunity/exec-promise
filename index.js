@@ -2,7 +2,7 @@
 
 // ===================================================================
 
-var Bluebird = require('bluebird')
+var AnyPromise = require('any-promise')
 var logSymbols = require('log-symbols')
 
 // ===================================================================
@@ -22,11 +22,6 @@ var isString
 // ===================================================================
 
 function prettyFormat (value) {
-  // Extract real error from Bluebird's wrapper.
-  if (value instanceof Bluebird.OperationalError) {
-    value = value.cause
-  }
-
   if (isString(value)) {
     return value
   }
@@ -55,9 +50,8 @@ function onError (error) {
 // ===================================================================
 
 function execPromise (fn) {
-  return Bluebird.try(fn, [process.argv.slice(2)]).then(
-    onSuccess,
-    onError
-  )
+  return new AnyPromise(function (resolve) {
+    resolve(fn(process.argv.slice(2)))
+  }).then(onSuccess, onError)
 }
 exports = module.exports = execPromise
