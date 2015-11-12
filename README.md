@@ -30,20 +30,20 @@ npm install --save exec-promise
 ```javascript
 module.exports = function (args) {
   if (args.indexOf('-h') !== -1) {
-    return 'Usage: my-program [-h | -v]';
+    return 'Usage: my-program [-h | -v]'
   }
 
   if (args.indexOf('-v') !== -1) {
-    var pkg = require('./package');
-    return 'MyProgram version '+ pkg.version;
+    var pkg = require('./package')
+    return 'MyProgram version ' + pkg.version
   }
 
-  var server = require('http').createServer();
-  server.listen(80);
+  var server = require('http').createServer()
+  server.listen(80)
 
   // The program will run until the server closes or encounters an
   // error.
-  return require('event-to-promise')(server, 'close');
+  return require('event-to-promise')(server, 'close')
 }
 
 // Executes the exported function if this module has been called
