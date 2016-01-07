@@ -19,6 +19,14 @@ var isString
   isString = _('')
 })(Object.prototype.toString)
 
+function waitTicks (n, fn) {
+  if (!n) {
+    fn()
+  }
+
+  setImmediate(waitTicks, n - 1, fn).unref()
+}
+
 // ===================================================================
 
 function prettyFormat (value) {
@@ -38,7 +46,10 @@ function onSuccess (value) {
     console.log(prettyFormat(value))
   }
 
-  process.exit(0)
+  waitTicks(10, function () {
+    console.log('forcing exit')
+    process.exit(0)
+  })
 }
 
 function onError (error) {
