@@ -25,7 +25,24 @@ npm install --save exec-promise
 
 ## Example
 
-`./cli.js`:
+### ES 2015
+
+```javascript
+import execPromise from 'exec-promise'
+
+// - The command line arguments are passed as first parameter.
+// - Node will exists as soon as the promise is settled (with a code
+//   different than 0 in case of an error).
+// - All errors are catched and properly displayed with a stack
+//   trace.
+// - Any returned value (i.e. not undefined) will be prettily
+//   displayed
+execPromise(async args => {
+  // ... do what you want here!
+})
+```
+
+### ES5
 
 ```javascript
 module.exports = function (args) {
