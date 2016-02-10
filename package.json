@@ -20,16 +20,15 @@
     "url": "https://github.com/julien-f/nodejs-exec-promise"
   },
   "dependencies": {
-    "any-promise": "^0.1.0",
     "log-symbols": "^1.0.0"
   },
   "devDependencies": {
-    "event-to-promise": "^0.4.0",
+    "event-to-promise": "^0.6.0",
     "mocha": "^2.3.3",
     "must": "^0.13.1",
     "native-promise-only": "^0.8.1",
     "sinon": "^1.10.3",
-    "standard": "^5.3.1"
+    "standard": "^6.0.4"
   },
   "scripts": {
     "lint": "standard",

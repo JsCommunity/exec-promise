@@ -2,7 +2,6 @@
 
 // ===================================================================
 
-var AnyPromise = require('any-promise')
 var logSymbols = require('log-symbols')
 
 // ===================================================================
@@ -50,7 +49,7 @@ function onError (error) {
 // ===================================================================
 
 function execPromise (fn) {
-  return new AnyPromise(function (resolve) {
+  return new Promise(function (resolve) {
     resolve(fn(process.argv.slice(2)))
   }).then(onSuccess, onError)
 }

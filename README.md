@@ -23,6 +23,10 @@ Download [manually](https://github.com/julien-f/nodejs-exec-promise/releases) or
 npm install --save exec-promise
 ```
 
+This library requires promises support, for Node versions prior to 0.12 [see
+this page](https://github.com/julien-f/js-promise-toolbox#usage) to
+enable them.
+
 ## Example
 
 ### ES 2015
