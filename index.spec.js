@@ -35,11 +35,22 @@ describe('exec-promise', function () {
     console.log = print = sinon.spy()
     process.exit = exit = sinon.spy()
 
-    return execPromise(fn).finally(function () {
-      console.error = origError
-      console.log = origLog
-      process.exit = origExit
-    })
+    return execPromise(fn).then(
+      function (value) {
+        console.error = origError
+        console.log = origLog
+        process.exit = origExit
+
+        return value
+      },
+      function (reason) {
+        console.error = origError
+        console.log = origLog
+        process.exit = origExit
+
+        throw reason
+      }
+    )
   }
 
   // ------------------------------------------------------------------
@@ -58,9 +69,16 @@ describe('exec-promise', function () {
 
     var spy = sinon.spy()
 
-    return exec(spy).finally(function () {
-      process.argv = origArgv
-    }).then(function () {
+    return exec(spy).then(
+      function (value) {
+        process.argv = origArgv
+        return value
+      },
+      function (reason) {
+        process.argv = origArgv
+        throw reason
+      }
+    ).then(function () {
       var params = spy.args[0][0]
       expect(params).to.have.length(2)
       expect(params[0]).to.equal(arg0)
