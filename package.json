@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "event-to-promise": "^0.7.0",
-    "mocha": "^2.3.3",
+    "mocha": "^3.0.0",
     "must": "^0.13.1",
     "native-promise-only": "^0.8.1",
     "sinon": "^1.10.3",
