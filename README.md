@@ -1,8 +1,8 @@
 # exec-promise
 
-[![Build Status](https://img.shields.io/travis/julien-f/nodejs-exec-promise/master.svg)](http://travis-ci.org/julien-f/nodejs-exec-promise)
-[![Dependency Status](https://david-dm.org/julien-f/nodejs-exec-promise/status.svg?theme=shields.io)](https://david-dm.org/julien-f/nodejs-exec-promise)
-[![devDependency Status](https://david-dm.org/julien-f/nodejs-exec-promise/dev-status.svg?theme=shields.io)](https://david-dm.org/julien-f/nodejs-exec-promise#info=devDependencies)
+[![Build Status](https://img.shields.io/travis/JsCommunity/exec-promise/master.svg)](http://travis-ci.org/JsCommunity/exec-promise)
+[![Dependency Status](https://david-dm.org/JsCommunity/exec-promise/status.svg?theme=shields.io)](https://david-dm.org/JsCommunity/exec-promise)
+[![devDependency Status](https://david-dm.org/JsCommunity/exec-promise/dev-status.svg?theme=shields.io)](https://david-dm.org/JsCommunity/exec-promise#info=devDependencies)
 
 > Testable CLIs with promises
 
@@ -15,7 +15,7 @@
 
 ## Install
 
-Download [manually](https://github.com/julien-f/nodejs-exec-promise/releases) or with package-manager.
+Download [manually](https://github.com/JsCommunity/exec-promise/releases) or with package-manager.
 
 #### [npm](https://npmjs.org/package/exec-promise)
 
@@ -24,7 +24,7 @@ npm install --save exec-promise
 ```
 
 This library requires promises support, for Node versions prior to 0.12 [see
-this page](https://github.com/julien-f/js-promise-toolbox#usage) to
+this page](https://github.com/JsCommunity/js-promise-toolbox#usage) to
 enable them.
 
 ## Example
@@ -81,7 +81,7 @@ the code.
 
 You may:
 
-- report any [issue](https://github.com/julien-f/human-format/issues)
+- report any [issue](https://github.com/JsCommunity/human-format/issues)
   you've encountered;
 - fork and create a pull request.
 
