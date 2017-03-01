@@ -89,9 +89,7 @@ describe('exec-promise', function () {
   // ------------------------------------------------------------------
 
   it('when nothing is returned', function () {
-    return exec(function () {
-      return
-    }).then(function () {
+    return exec(function () {}).then(function () {
       expect(error.callCount).to.equal(0)
 
       expect(exit.callCount).to.equal(1)
