@@ -1,21 +1,13 @@
 'use strict'
 
-/* eslint-env mocha */
+/* eslint-env jest */
 
 // ===================================================================
 
 require('native-promise-only')
+var logSymbols = require('log-symbols')
 
 var execPromise = require('./')
-
-// -------------------------------------------------------------------
-
-var expect = require('must')
-var sinon = require('sinon')
-
-// -------------------------------------------------------------------
-
-var logSymbols = require('log-symbols')
 
 // ===================================================================
 
@@ -31,9 +23,9 @@ describe('exec-promise', function () {
     var origExit = process.exit
     var origLog = console.log
 
-    console.error = error = sinon.spy()
-    console.log = print = sinon.spy()
-    process.exit = exit = sinon.spy()
+    console.error = error = jest.fn()
+    console.log = print = jest.fn()
+    process.exit = exit = jest.fn()
 
     return execPromise(fn).then(
       function (value) {
@@ -67,7 +59,7 @@ describe('exec-promise', function () {
       arg1
     ]
 
-    var spy = sinon.spy()
+    var spy = jest.fn()
 
     return exec(spy).then(
       function (value) {
@@ -79,10 +71,10 @@ describe('exec-promise', function () {
         throw reason
       }
     ).then(function () {
-      var params = spy.args[0][0]
-      expect(params).to.have.length(2)
-      expect(params[0]).to.equal(arg0)
-      expect(params[1]).to.equal(arg1)
+      var params = spy.mock.calls[0][0]
+      expect(params.length).toBe(2)
+      expect(params[0]).toBe(arg0)
+      expect(params[1]).toBe(arg1)
     })
   })
 
@@ -90,12 +82,12 @@ describe('exec-promise', function () {
 
   it('when nothing is returned', function () {
     return exec(function () {}).then(function () {
-      expect(error.callCount).to.equal(0)
+      expect(error.mock.calls.length).toBe(0)
 
-      expect(exit.callCount).to.equal(1)
-      expect(exit.args[0]).to.eql([0])
+      expect(exit.mock.calls.length).toBe(1)
+      expect(exit.mock.calls[0]).toEqual([0])
 
-      expect(print.callCount).to.equal(0)
+      expect(print.mock.calls.length).toBe(0)
     })
   })
 
@@ -107,13 +99,13 @@ describe('exec-promise', function () {
     return exec(function () {
       return string
     }).then(function () {
-      expect(error.callCount).to.equal(0)
+      expect(error.mock.calls.length).toBe(0)
 
-      expect(exit.callCount).to.equal(1)
-      expect(exit.args[0]).to.eql([0])
+      expect(exit.mock.calls.length).toBe(1)
+      expect(exit.mock.calls[0]).toEqual([0])
 
-      expect(print.callCount).to.equal(1)
-      expect(print.args[0]).to.eql([string])
+      expect(print.mock.calls.length).toBe(1)
+      expect(print.mock.calls[0]).toEqual([string])
     })
   })
 
@@ -125,13 +117,13 @@ describe('exec-promise', function () {
     return exec(function () {
       throw code
     }).then(function () {
-      expect(error.callCount).to.equal(1)
-      expect(error.args[0]).to.eql([logSymbols.error, '' + code])
+      expect(error.mock.calls.length).toBe(1)
+      expect(error.mock.calls[0]).toEqual([logSymbols.error, '' + code])
 
-      expect(exit.callCount).to.equal(1)
-      expect(exit.args[0]).to.eql([1])
+      expect(exit.mock.calls.length).toBe(1)
+      expect(exit.mock.calls[0]).toEqual([1])
 
-      expect(print.callCount).to.equal(0)
+      expect(print.mock.calls.length).toBe(0)
     })
   })
 
@@ -143,13 +135,13 @@ describe('exec-promise', function () {
     return exec(function () {
       throw string
     }).then(function () {
-      expect(error.callCount).to.equal(1)
-      expect(error.args[0]).to.eql([logSymbols.error, string])
+      expect(error.mock.calls.length).toBe(1)
+      expect(error.mock.calls[0]).toEqual([logSymbols.error, string])
 
-      expect(exit.callCount).to.equal(1)
-      expect(exit.args[0]).to.eql([1])
+      expect(exit.mock.calls.length).toBe(1)
+      expect(exit.mock.calls[0]).toEqual([1])
 
-      expect(print.callCount).to.equal(0)
+      expect(print.mock.calls.length).toBe(0)
     })
   })
 })
