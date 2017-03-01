@@ -23,7 +23,7 @@
     "log-symbols": "^1.0.0"
   },
   "devDependencies": {
-    "event-to-promise": "^0.7.0",
+    "event-to-promise": "^0.8.0",
     "mocha": "^3.0.0",
     "must": "^0.13.1",
     "native-promise-only": "^0.8.1",
