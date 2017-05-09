@@ -6,6 +6,15 @@
 
 > Testable CLIs with promises
 
+**Features**
+
+- executes the passed function with command line arguments
+- wait for completion (sync or promise) before stopping Node
+- in case of exception: pretty print the value and exit with exit code 1
+- in case of returned value (not undefined):
+    - if valid exit code (integer), exit Node with it
+    - otherwise, pretty print it
+
 ## Introduction
 
 **TODO**
