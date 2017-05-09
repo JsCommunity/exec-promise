@@ -93,6 +93,23 @@ describe('exec-promise', function () {
 
   // ------------------------------------------------------------------
 
+  it('when an integer is returned', function () {
+    var value = 42
+
+    return exec(function () {
+      return value
+    }).then(function () {
+      expect(error.mock.calls.length).toBe(0)
+
+      expect(exit.mock.calls.length).toBe(1)
+      expect(exit.mock.calls[0]).toEqual([value])
+
+      expect(print.mock.calls.length).toBe(0)
+    })
+  })
+
+  // ------------------------------------------------------------------
+
   it('when a string is returned', function () {
     var string = 'foo'
 

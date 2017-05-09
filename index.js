@@ -33,6 +33,10 @@ function prettyFormat (value) {
 }
 
 function onSuccess (value) {
+  if (typeof value === 'number' && value % 1 === 0) {
+    return process.exit(value)
+  }
+
   if (value !== undefined) {
     console.log(prettyFormat(value))
   }
